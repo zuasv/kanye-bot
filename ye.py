@@ -3,6 +3,7 @@ import schedule
 import time
 from datetime import date
 from telegram import Bot
+import pytz
 
 TOKEN = "8365149140:AAFDPgSxy3eCAVY_69WTvX8sQeftY_DbhWo"
 CHAT_ID = -5091244581
@@ -27,9 +28,13 @@ async def send_countdown():
 def job():
     asyncio.run(send_countdown())
 
-schedule.every().day.at("10:00").do(job)
+# Ташкент = UTC+5
+# 10:00 утра по Ташкенту = 05:00 UTC
+# 22:00 вечера по Ташкенту = 17:00 UTC
+schedule.every().day.at("05:00").do(job)
+schedule.every().day.at("17:00").do(job)
 
-print("Бот запущен!")
+print("Бот запущен! Отправка в 10:00 и 22:00 по Ташкенту")
 job()
 
 while True:
